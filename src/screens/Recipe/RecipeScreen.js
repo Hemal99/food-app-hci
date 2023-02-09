@@ -23,8 +23,8 @@ export default function RecipeScreen(props) {
   const { navigation, route } = props;
 
   const item = route.params?.item;
-  const category = getCategoryById(item.categoryId);
-  const title = getCategoryName(category.id);
+  const category = getCategoryById(item?.categoryId);
+  const title = getCategoryName(category?.id);
 
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -100,7 +100,7 @@ export default function RecipeScreen(props) {
             }
           >
             <Text style={styles.category}>
-              {getCategoryName(item.categoryId).toUpperCase()}
+              {getCategoryName(item?.categoryId).toUpperCase()}
             </Text>
           </TouchableHighlight>
         </View>

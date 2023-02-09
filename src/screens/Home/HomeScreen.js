@@ -32,9 +32,9 @@ export default function HomeScreen(props) {
         <View>
           <Image style={styles.photo} source={{ uri: item.photo_url }} />
           <Text style={styles.title}>{item.title}</Text>
-          {/* <Text style={styles.category}>
+          <Text style={styles.category}>
             {getCategoryName(item.categoryId)}
-          </Text> */}
+          </Text>
         </View>
       </TouchableOpacity>
     </View>
