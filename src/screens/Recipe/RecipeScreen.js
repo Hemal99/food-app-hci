@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
 import {
   ScrollView,
   Text,
@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
+  NativeModules,
 } from "react-native";
 import styles from "./styles";
 import Carousel, { Pagination } from "react-native-snap-carousel";
@@ -29,6 +30,18 @@ export default function RecipeScreen(props) {
   const [activeSlide, setActiveSlide] = useState(0);
 
   const slider1Ref = useRef();
+
+  const { AlanManager } = NativeModules;
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      // The screen is focused
+      AlanManager.setVisualState({ recipe: item, screen: "recipe" });
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
