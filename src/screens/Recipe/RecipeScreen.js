@@ -17,13 +17,33 @@ import {
 } from "../../data/MockDataAPI";
 import BackButton from "../../components/BackButton/BackButton";
 import ViewIngredientsButton from "../../components/ViewIngredientsButton/ViewIngredientsButton";
+import { ingredients } from "../../data/dataArrays";
 
 const { width: viewportWidth } = Dimensions.get("window");
+
+const getIngredients = (ing) => {
+  const idArr = [];
+  const nameArr = [];
+
+  for (let i = 0; i < ing.length; i++) {
+    idArr.push(ing[i][0]);
+  }
+
+  for (let i = 0; i < idArr.length; i++) {
+    nameArr.push(ingredients[idArr[i]]);
+  }
+
+  const ingredientArr = nameArr.map((e) => e.name);
+
+  return ingredientArr;
+};
 
 export default function RecipeScreen(props) {
   const { navigation, route } = props;
 
   const item = route.params?.item;
+  const ingredient = getIngredients(item.ingredients);
+
   const category = getCategoryById(item?.categoryId);
   const title = getCategoryName(category?.id);
 
@@ -69,6 +89,22 @@ export default function RecipeScreen(props) {
     var name = getIngredientName(item);
     let ingredient = item;
     navigation.navigate("Ingredient", { ingredient, name });
+  };
+
+  const sendIngredients = () => {
+    AlanManager.activate();
+    /// Provide any params with json
+    AlanManager.callProjectApi(
+      "script::getIngredientsList",
+      { data: ingredient },
+      (error, result) => {
+        if (error) {
+          console.error(error);
+        } else {
+          console.log(result);
+        }
+      }
+    );
   };
 
   return (
@@ -132,6 +168,7 @@ export default function RecipeScreen(props) {
               let ingredients = item.ingredients;
               let title = "Ingredients for " + item.title;
               navigation.navigate("IngredientsDetails", { ingredients, title });
+              sendIngredients();
             }}
           />
         </View>
