@@ -90,11 +90,7 @@ export default function AppContainer() {
   return (
     <NavigationContainer ref={navigationRef}>
       <DrawerStack />
-      <AlanView
-        projectid={
-          "eda27e56d15717ce716994185ae941b52e956eca572e1d8b807a3e2338fdd0dc/stage"
-        }
-      />
+      <AlanView projectid={""} />
     </NavigationContainer>
   );
 }
